@@ -127,23 +127,22 @@ int[,] SortearCartela()
     return Novatabela;
 }
 
-bool checharNumero(int[] numeros, int[,] tabela)
+bool checharNumero(int numero, int[,] tabela)
 {
     int[] pontosLinhas = new int[5];
     int[] pontosColunas = new int[5];
     int qtdNumerosPreenchidos = 0;
 
-
-    for (int i = 0; i < numeros.Length; i++)
         for (linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
         {
             for (colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
             {
-                if (tabela[linhaAtual, colunaAtual] == numeros[i])
+                if (tabela[linhaAtual, colunaAtual] == numero)
                 {
                     pontosLinhas[linhaAtual]++;
                     pontosColunas[colunaAtual]++;
                     qtdNumerosPreenchidos++;
+                    return true;
                 }
 
             }
@@ -177,10 +176,12 @@ Console.WriteLine();
 for (int i = 0; i < numerosSorteados.Length; i++)
 {
     Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
-    if (checharNumero(numerosSorteados, cartela))
+
+    if (checharNumero(numerosSorteados[i], cartela))
         numerosSorteadosNaCartela++;
+
     Console.WriteLine("números na cartela " + numerosSorteadosNaCartela);
-    //Console.ReadLine();
+    Console.ReadLine();
 
 }
 

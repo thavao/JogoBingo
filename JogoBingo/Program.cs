@@ -36,20 +36,21 @@ deseja.
 
 int minimoSorteado = 1, maximoSorteado = 100;
 
-int qtdLinhas = 5, qtdColunas = 6, qtdJogadores = 2;
+int qtdLinhas = 5, qtdColunas = 6, qtdJogadores = 1;
 
 int linhaAtual, colunaAtual;
 
-int linhaJogadorNaCartela = 0, ColunaDadosNaCartela = 5, LinhaPontuacaoDaCartela = 1;
+int ColunaDadosNaCartela = 5, linhaJogadorNaCartela = 0, LinhaPontuacaoDaCartela = 1, LinhaNumerosMarcados = 2;
 
 bool pontoHorizontal = false, pontoVertical = false, tabelaCheia = false;
 
 string[] jogador = new string[qtdJogadores];
 
-int[,] cartela;
+int[][,] cartela = new int[qtdJogadores][,];
 
 int[] numerosSorteados;
 
+#region Funcoes
 void ImprimirCartela(int[,] cartelaRecebida)
 {
     for (linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
@@ -107,7 +108,7 @@ int[,] SortearCartela()
     return Novatabela;
 }
 
-bool checharNumero(int numero, int[,] tabela)
+int[,] AtualizarTabela(int numero, int[,] tabela)
 {
     int[] pontosLinhas = new int[5];
     int[] pontosColunas = new int[5];
@@ -121,13 +122,14 @@ bool checharNumero(int numero, int[,] tabela)
             {
                 pontosLinhas[linhaAtual]++;
                 pontosColunas[colunaAtual]++;
-                qtdNumerosPreenchidos++;
-                return true;
+                tabela[LinhaNumerosMarcados, ColunaDadosNaCartela]++;
+                return tabela;
             }
 
         }
         if (pontosLinhas[linhaAtual] == 5 && !pontoHorizontal)
         {
+            tabela[LinhaPontuacaoDaCartela, ColunaDadosNaCartela]++;
             pontoHorizontal = true;
         }
         if (pontosColunas[linhaAtual] == 5 && !pontoVertical)
@@ -138,12 +140,14 @@ bool checharNumero(int numero, int[,] tabela)
     }
 
 
-    return false;
+    return tabela;
 }
 
+#endregion
 
-cartela = SortearCartela();
-cartela[linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
+
+cartela[0] = SortearCartela();
+cartela[0][linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
 jogador[0] = "José";
 
 
@@ -155,15 +159,14 @@ Console.WriteLine();
 for (int i = 0; i < numerosSorteados.Length; i++)
 {
     Console.Clear();
-    Console.WriteLine("Jogador: " + jogador[cartela[linhaJogadorNaCartela, ColunaDadosNaCartela]]);
-    ImprimirCartela(cartela);
+    Console.WriteLine("Jogador: " + jogador[cartela[0][linhaJogadorNaCartela, ColunaDadosNaCartela]]);
+    ImprimirCartela(cartela[0]);
     Console.WriteLine();
     Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
 
-    if (checharNumero(numerosSorteados[i], cartela))
-        numerosSorteadosNaCartela++;
+    cartela[0] = AtualizarTabela(numerosSorteados[i], cartela[0]);
 
-    Console.WriteLine("números na cartela " + numerosSorteadosNaCartela);
+    Console.WriteLine("números na cartela " + cartela[0][LinhaNumerosMarcados, ColunaDadosNaCartela]);
     Console.ReadLine();
 
 }

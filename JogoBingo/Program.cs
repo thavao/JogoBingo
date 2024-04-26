@@ -46,7 +46,7 @@ bool pontoHorizontal = false, pontoVertical = false, tabelaCheia = false;
 
 string[] jogador = new string[qtdJogadores];
 
-int[,] cartela;
+int[][,] cartelas = new int[2][,];
 
 int[] numerosSorteados;
 
@@ -92,26 +92,6 @@ int[] GerarConjuntoAleatorioSemRepeticoes(int tamanho)
 int[,] SortearCartela()
 {
     int[] numerosDaCartela = GerarConjuntoAleatorioSemRepeticoes(25);
-
-    int aux = new Random().Next(minimoSorteado, maximoSorteado);
-    numerosDaCartela[0] = aux;
-
-    for (int i = 1; i < 25; i++)
-    {
-        aux = new Random().Next(minimoSorteado, maximoSorteado);
-        for (int j = 0; j < i; j++)
-        {
-            if (aux == numerosDaCartela[j])
-            {
-                i--;
-                break;
-            }
-            else
-            {
-                numerosDaCartela[i] = aux;
-            }
-        }
-    }
 
     int[,] Novatabela = new int[qtdLinhas, qtdColunas];
     int indiceVetor = 0;
@@ -164,10 +144,13 @@ bool checharNumero(int[] numeros, int[,] tabela)
 
 jogador[0] = "José";
 
-cartela = SortearCartela();
-cartela[linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
-Console.WriteLine("Jogador: " + jogador[cartela[linhaJogadorNaCartela, ColunaDadosNaCartela]]);
-ImprimirCartela(cartela);
+cartelas[0] = SortearCartela();
+
+cartelas[0][linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
+
+Console.WriteLine("Jogador: " + jogador[cartelas[0][linhaJogadorNaCartela, ColunaDadosNaCartela]]);
+
+ImprimirCartela(cartelas[0]);
 
 numerosSorteados = GerarConjuntoAleatorioSemRepeticoes(99);
 int numerosSorteadosNaCartela = 0;
@@ -177,7 +160,7 @@ Console.WriteLine();
 for (int i = 0; i < numerosSorteados.Length; i++)
 {
     Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
-    if (checharNumero(numerosSorteados, cartela))
+    if (checharNumero(numerosSorteados, cartelas[0]))
         numerosSorteadosNaCartela++;
     Console.WriteLine("números na cartela " + numerosSorteadosNaCartela);
     //Console.ReadLine();

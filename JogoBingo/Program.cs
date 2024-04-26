@@ -93,26 +93,6 @@ int[,] SortearCartela()
 {
     int[] numerosDaCartela = GerarConjuntoAleatorioSemRepeticoes(25);
 
-    int aux = new Random().Next(minimoSorteado, maximoSorteado);
-    numerosDaCartela[0] = aux;
-
-    for (int i = 1; i < 25; i++)
-    {
-        aux = new Random().Next(minimoSorteado, maximoSorteado);
-        for (int j = 0; j < i; j++)
-        {
-            if (aux == numerosDaCartela[j])
-            {
-                i--;
-                break;
-            }
-            else
-            {
-                numerosDaCartela[i] = aux;
-            }
-        }
-    }
-
     int[,] Novatabela = new int[qtdLinhas, qtdColunas];
     int indiceVetor = 0;
 
@@ -133,40 +113,39 @@ bool checharNumero(int numero, int[,] tabela)
     int[] pontosColunas = new int[5];
     int qtdNumerosPreenchidos = 0;
 
-        for (linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
+    for (linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
+    {
+        for (colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
         {
-            for (colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
+            if (tabela[linhaAtual, colunaAtual] == numero)
             {
-                if (tabela[linhaAtual, colunaAtual] == numero)
-                {
-                    pontosLinhas[linhaAtual]++;
-                    pontosColunas[colunaAtual]++;
-                    qtdNumerosPreenchidos++;
-                    return true;
-                }
+                pontosLinhas[linhaAtual]++;
+                pontosColunas[colunaAtual]++;
+                qtdNumerosPreenchidos++;
+                return true;
+            }
 
-            }
-            if (pontosLinhas[linhaAtual] == 5 && !pontoHorizontal)
-            {
-                pontoHorizontal = true;
-            }
-            if (pontosColunas[linhaAtual] == 5 && !pontoVertical)
-            {
-                pontoHorizontal = true;
-                tabela[LinhaPontuacaoDaCartela, ColunaDadosNaCartela]++;
-            }
         }
+        if (pontosLinhas[linhaAtual] == 5 && !pontoHorizontal)
+        {
+            pontoHorizontal = true;
+        }
+        if (pontosColunas[linhaAtual] == 5 && !pontoVertical)
+        {
+            pontoHorizontal = true;
+            tabela[LinhaPontuacaoDaCartela, ColunaDadosNaCartela]++;
+        }
+    }
 
 
     return false;
 }
 
-jogador[0] = "José";
 
 cartela = SortearCartela();
 cartela[linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
-Console.WriteLine("Jogador: " + jogador[cartela[linhaJogadorNaCartela, ColunaDadosNaCartela]]);
-ImprimirCartela(cartela);
+jogador[0] = "José";
+
 
 numerosSorteados = GerarConjuntoAleatorioSemRepeticoes(99);
 int numerosSorteadosNaCartela = 0;
@@ -175,6 +154,10 @@ Console.WriteLine();
 
 for (int i = 0; i < numerosSorteados.Length; i++)
 {
+    Console.Clear();
+    Console.WriteLine("Jogador: " + jogador[cartela[linhaJogadorNaCartela, ColunaDadosNaCartela]]);
+    ImprimirCartela(cartela);
+    Console.WriteLine();
     Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
 
     if (checharNumero(numerosSorteados[i], cartela))

@@ -32,6 +32,8 @@ Recursos opcionais:
 usuário informa no inicio do programa a quantidade de jogadores que ele
 deseja.
 */
+//problema atual: criar mais de uma cartela
+
 int minimoSorteado = 1, maximoSorteado = 100;
 
 int qtdLinhas = 5, qtdColunas = 6, qtdJogadores = 2;

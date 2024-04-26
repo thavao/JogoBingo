@@ -34,27 +34,30 @@ deseja.
 */
 //problema atual: criar mais de uma cartela
 
-int minimoSorteado = 1, maximoSorteado = 100;
+bool bingo = false;
 
+int minimoSorteado = 1, maximoSorteado = 100;
 
 int qtdLinhas = 5, qtdColunas = 6, qtdJogadores = 2, qtdCartelasPorJogador = 2;
 
-//int linhaAtual, colunaAtual;
-
-int ColunaDadosNaCartela = 5, linhaJogadorNaCartela = 0, LinhaPontuacaoDaCartela = 1, LinhaNumerosMarcados = 2;
+int ColunaDadosNaCartela = 5, linhaJogadorNaCartela = 0, LinhaNumerosMarcados = 1;
 
 bool pontoHorizontal = false, pontoVertical = false, tabelaCheia = false;
 
-int[,] JogadoresNumerosColunas = new int[qtdJogadores, qtdColunas];
+//jogadoresNumerosColunas[jogador][coluna, cartela]
+int[,] JogadoresNumerosColunas = new int[qtdColunas - 1, qtdCartelasPorJogador * qtdJogadores];
+int[,] JogadoresNumerosLinhas = new int[qtdLinhas, qtdCartelasPorJogador * qtdJogadores];
+
+bool[] jogadorPontoHorizontal = new bool[qtdJogadores];
+bool[] jogadorPontoVertical = new bool[qtdJogadores];
+int[] pontosJogador = new int[qtdJogadores];
 
 string[] jogadores = new string[qtdJogadores];
 
 
 int[][,] cartela = new int[qtdCartelasPorJogador * qtdJogadores][,];
 
-int[,] CartelasDoJogador = new int[qtdJogadores, qtdCartelasPorJogador+1];
-
-
+int[,] CartelasDoJogador = new int[qtdJogadores, qtdCartelasPorJogador + 1];
 
 //int[] numerosMarcadosCartela = new int[25];
 
@@ -139,23 +142,111 @@ int[,] AtualizarTabela(int numero, int[,] tabela, int jogador)
     return tabela;
 }
 
-void ImprimirCartelaDeCadaJogador()
+void AtualizarTabelas(int jogador, int numero)
 {
-    for (int jogador = 0; jogador < qtdJogadores; jogador++)
+    for (int c = 1; c <= qtdCartelasPorJogador; c++)
     {
-        for (int colunaAtual = 1; colunaAtual <= qtdCartelasPorJogador; colunaAtual++)
+        int indiceCartela = CartelasDoJogador[jogador, c];
+        for (int linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
         {
-            Console.WriteLine();
-            Console.WriteLine($"cartela {colunaAtual} do jogador: {jogadores[jogador]}");
-            ImprimirCartela(cartela[CartelasDoJogador[jogador, colunaAtual]]);
+            for (int colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
+            {
+                if (cartela[indiceCartela][linhaAtual, colunaAtual] == numero)
+                {
+
+                    cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]++;
+                    JogadoresNumerosColunas[colunaAtual, indiceCartela]++;
+                    JogadoresNumerosLinhas[linhaAtual, indiceCartela]++;
+
+                    if (!pontoVertical && JogadoresNumerosColunas[colunaAtual, indiceCartela] >= 5)
+                    {
+                        pontoVertical = true;
+                        jogadorPontoVertical[jogador] = true;
+                        Console.WriteLine($"Jogador {jogadores[jogador]} marcou uma coluna!");
+                    }
+
+                }
+
+            }
+            if (!pontoHorizontal && JogadoresNumerosLinhas[linhaAtual, indiceCartela] >= 5)
+            {
+                pontoHorizontal = true;
+                jogadorPontoHorizontal[jogador] = true;
+                Console.WriteLine($"Jogador {jogadores[jogador]} marcou uma linha!");
+
+            }
         }
     }
+}
 
+void ImprimirCartelasJogador(int jogador)
+{
+
+    for (int colunaAtual = 1; colunaAtual <= qtdCartelasPorJogador; colunaAtual++)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"cartela {colunaAtual} do jogador: {jogadores[jogador]}");
+        ImprimirCartela(cartela[CartelasDoJogador[jogador, colunaAtual]]);
+    }
+
+
+}
+
+void ImprimirQtdNumerosMarcados(int jogador)
+{
+    for (int i = 1; i <= qtdCartelasPorJogador; i++)
+    {
+        int indiceCartela = CartelasDoJogador[jogador, i];
+        Console.WriteLine($"números na cartela {i}: {cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]}");
+    }
+}
+
+void ContarPontos()
+{
+    for (int i = 0; i < qtdJogadores; i++)
+    {
+        if (jogadorPontoHorizontal[i])
+        {
+            pontosJogador[i]++;
+        }
+        if (jogadorPontoVertical[i])
+        {
+            pontosJogador[i]++;
+        }
+    }
+}
+
+bool VerificarBingo(int jogador)
+{
+    int qtdMarcadosNaCartela = 0;
+    for (int colunaAtual = 1; colunaAtual <= qtdCartelasPorJogador; colunaAtual++)
+    {
+        qtdMarcadosNaCartela = cartela[CartelasDoJogador[jogador, colunaAtual]][LinhaNumerosMarcados, ColunaDadosNaCartela];
+        if (qtdMarcadosNaCartela == 25)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void FinalizarJogo(int vencedor)
+{
+    pontosJogador[vencedor] += 5;
+    Console.WriteLine("---BINGO!---");
+    Console.WriteLine("O vencedor foi: " + jogadores[vencedor]);
+    ContarPontos();
+    for (int i = 0; i < qtdJogadores; i++)
+    {
+        Console.WriteLine($"Jogador {jogadores[i]} fez: {pontosJogador[i]} pontos");
+    }
+
+    Console.ReadLine();
 }
 
 #endregion
 
-
+#region Mocando Dados
 cartela[0] = SortearCartela();
 cartela[1] = SortearCartela();
 cartela[0][linhaJogadorNaCartela, ColunaDadosNaCartela] = 0;
@@ -171,7 +262,7 @@ cartela[3][linhaJogadorNaCartela, ColunaDadosNaCartela] = 3;
 jogadores[1] = "Julio";
 CartelasDoJogador[1, 1] = 2;
 CartelasDoJogador[1, 2] = 3;
-
+#endregion
 
 
 numerosSorteados = GerarConjuntoAleatorioSemRepeticoes(99);
@@ -180,24 +271,35 @@ Console.WriteLine();
 
 for (int i = 0; i < numerosSorteados.Length; i++)
 {
-
-    for (int jogador = 0; jogador < qtdJogadores; jogador++)
+    if (!bingo)
     {
-        Console.WriteLine();
-        Console.WriteLine("--------------------------------");
-        Console.WriteLine("Jogador: " + jogadores[jogador]);
-        ImprimirCartela(cartela[jogador]);
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
+        for (int jogador = 0; jogador < qtdJogadores; jogador++)
+        {
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("Jogador: " + jogadores[jogador]);
+            ImprimirCartelasJogador(jogador);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
 
-        cartela[jogador] = AtualizarTabela(numerosSorteados[i], cartela[jogador], jogador);
+            AtualizarTabelas(jogador, numerosSorteados[i]);
 
-        Console.WriteLine("números na cartela " + cartela[jogador][LinhaNumerosMarcados, ColunaDadosNaCartela]);
-        Console.WriteLine("--------------------------------");
-        Console.ReadLine();
+            ImprimirQtdNumerosMarcados(jogador);
+            Console.WriteLine("--------------------------------");
+            if (VerificarBingo(jogador))
+            {
+                bingo = true;
 
+                FinalizarJogo(jogador);
+                break;
+            }
+            Console.ReadLine();
+
+        }
     }
+    else
+        break;
     Console.ReadLine();
     Console.Clear();
 }

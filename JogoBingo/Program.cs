@@ -73,8 +73,8 @@ void ImprimirCartela(int[,] cartelaRecebida)
 	for (int linhaAtual = 0; linhaAtual < qtdLinhas; linhaAtual++)
 	{
 		Console.WriteLine();
-
-		for (int colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
+        Console.Write("\t  ");
+        for (int colunaAtual = 0; colunaAtual < qtdColunas - 1; colunaAtual++)
 		{
 			for (int i = 0; i < contadorNumerosApresentados; i++)
 			{
@@ -209,7 +209,7 @@ void ImprimirCartelasJogador(int jogador)
 	{
 		Console.WriteLine();
 		Console.WriteLine();
-		Console.WriteLine($"cartela {colunaAtual} do jogador: {jogadores[jogador]}");
+		Console.WriteLine($"    cartela {colunaAtual} do jogador: {jogadores[jogador]}");
 		ImprimirCartela(cartela[CartelasDoJogador[jogador, colunaAtual]]);
 	}
 
@@ -221,7 +221,7 @@ void ImprimirQtdNumerosMarcados(int jogador)
 	for (int i = 1; i <= qtdCartelasPorJogador; i++)
 	{
 		int indiceCartela = CartelasDoJogador[jogador, i];
-		Console.WriteLine($"números na cartela {i}: {cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]}");
+		Console.WriteLine($"   Marcados na cartela {i}: {cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]}");
 	}
 }
 
@@ -303,16 +303,17 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 		for (int jogador = 0; jogador < qtdJogadores; jogador++)
 		{
 			Console.WriteLine();
-			Console.WriteLine("--------------------------------");
-			Console.WriteLine("Jogador: " + jogadores[jogador]);
+			Console.WriteLine("{-----------------------------------}");
+			Console.WriteLine("\tJogador: " + jogadores[jogador]);
 			ImprimirCartelasJogador(jogador);
 			Console.WriteLine();
-			Console.WriteLine("Numero Sorteado: " + numerosSorteados[i]);
+            Console.WriteLine();
+            Console.WriteLine("   Numero Sorteado: " + numerosSorteados[i]);
 
 			AtualizarTabelas(jogador, numerosSorteados[i]);
 
 			ImprimirQtdNumerosMarcados(jogador);
-			Console.WriteLine("--------------------------------");
+			Console.WriteLine("{-----------------------------------}");
 			if (VerificarBingo(jogador))
 			{
 				bingo = true;
@@ -326,7 +327,6 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 	}
 	else
 		break;
-	Console.ReadLine();
 	Console.Clear();
 }
 

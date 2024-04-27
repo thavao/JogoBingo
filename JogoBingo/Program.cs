@@ -33,6 +33,7 @@ usuário informa no inicio do programa a quantidade de jogadores que ele
 deseja.
 */
 
+#region Declaração de variáveis
 bool bingo = false;
 
 //constantes para numero minimo e numero maximo que podem estar no sorteio
@@ -69,7 +70,7 @@ int[] numerosSorteados;
 int[] numerosApresentados = new int[99];
 
 int contadorNumerosApresentados = 0;
-
+#endregion
 
 #region Funcoes
 void ImprimirCartela(int[,] cartelaRecebida)
@@ -376,6 +377,7 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 	}
 	else
 		break;
+
 	Console.Clear();
 }
 

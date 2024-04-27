@@ -209,7 +209,7 @@ void ImprimirCartelasJogador(int jogador)
 	{
 		Console.WriteLine();
 		Console.WriteLine();
-		Console.WriteLine($"    cartela {colunaAtual} do jogador: {jogadores[jogador]}");
+		Console.WriteLine($"    Cartela {colunaAtual} do jogador: {jogadores[jogador]}");
 		ImprimirCartela(cartela[CartelasDoJogador[jogador, colunaAtual]]);
 	}
 
@@ -221,7 +221,7 @@ void ImprimirQtdNumerosMarcados(int jogador)
 	for (int i = 1; i <= qtdCartelasPorJogador; i++)
 	{
 		int indiceCartela = CartelasDoJogador[jogador, i];
-		Console.WriteLine($"   Marcados na cartela {i}: {cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]}");
+		Console.WriteLine($"    Marcados na cartela {i}: {cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]}");
 	}
 }
 
@@ -304,11 +304,11 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 		{
 			Console.WriteLine();
 			Console.WriteLine("{-----------------------------------}");
-			Console.WriteLine("\tJogador: " + jogadores[jogador]);
+			Console.WriteLine("\t  Jogador: " + jogadores[jogador]);
 			ImprimirCartelasJogador(jogador);
 			Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("   Numero Sorteado: " + numerosSorteados[i]);
+            Console.WriteLine("    Numero Sorteado: " + numerosSorteados[i]);
 
 			AtualizarTabelas(jogador, numerosSorteados[i]);
 

@@ -149,7 +149,7 @@ int[,] SortearCartela()
 	return Novatabela;
 }
 
-void AtualizarTabelas(int jogador, int numero)
+void ChecarCartelas(int jogador, int numero)
 {
 	for (int c = 1; c <= qtdCartelasPorJogador; c++)
 	{
@@ -336,7 +336,7 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 			Console.WriteLine();
 			Console.WriteLine("    Numero Sorteado: " + numerosSorteados[i]);
 
-			AtualizarTabelas(jogador, numerosSorteados[i]);
+			ChecarCartelas(jogador, numerosSorteados[i]);
 
 			ImprimirQtdNumerosMarcados(jogador);
 			Console.WriteLine("{-----------------------------------}");

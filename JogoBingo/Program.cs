@@ -259,8 +259,8 @@ void FinalizarJogo(int vencedor)
 	{
 		Console.WriteLine($"    Jogador {jogadores[i]} fez: {pontosJogador[i]} pontos");
 	}
-    Console.WriteLine("\n\n\n\n\n\n\n");
-    Console.ReadLine();
+	Console.WriteLine("\n\n\n\n\n\n\n");
+	Console.ReadLine();
 }
 void CriarCartelas()
 {
@@ -279,11 +279,25 @@ void CriarCartelas()
 }
 void DefinirJogadores()
 {
-	Console.Write("Digite a quantidade de jogadores: ");
-	qtdJogadores = int.Parse(Console.ReadLine());
+	do
+	{
+		Console.Write("Digite a quantidade de jogadores: ");
+		qtdJogadores = int.Parse(Console.ReadLine());
+
+		if (qtdJogadores < 1)
+			Console.WriteLine("Quantidade inválida\nTente novamente por favor...\n");
+
+	} while (qtdJogadores < 1);
 	Console.WriteLine();
-	Console.Write("Digite a quantidade de cartelas por jogador: ");
-	qtdCartelasPorJogador = int.Parse(Console.ReadLine());
+	do
+	{
+		Console.Write("Digite a quantidade de cartelas por jogador: ");
+		qtdCartelasPorJogador = int.Parse(Console.ReadLine());
+
+		if (qtdCartelasPorJogador < 1)
+			Console.WriteLine("Quantidade inválida\nTente novamente por favor...\n");
+
+	} while (qtdCartelasPorJogador < 1);
 
 	CriarCartelas();
 
@@ -317,7 +331,7 @@ void DistribuirCartelas()
 
 #endregion
 
-
+//Inicio
 
 PrintarBingaoDoThavao();
 DefinirJogadores();
@@ -355,7 +369,8 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 				FinalizarJogo(jogador);
 				break;
 			}
-			Console.ReadLine();
+            Console.WriteLine("\nPressione Enter para continuar...");
+            Console.ReadLine();
 
 		}
 	}

@@ -238,19 +238,29 @@ bool VerificarBingo(int jogador)
 	return false;
 }
 
+void PrintarBingo()
+{
+	Console.WriteLine("\n\n\n\n$$$$$$$\\  $$$$$$\\ $$\\   $$\\  $$$$$$\\   $$$$$$\\  $$\\ \r\n$$  __$$\\ \\_$$  _|$$$\\  $$ |$$  __$$\\ $$  __$$\\ $$ |\r\n$$ |  $$ |  $$ |  $$$$\\ $$ |$$ /  \\__|$$ /  $$ |$$ |\r\n$$$$$$$\\ |  $$ |  $$ $$\\$$ |$$ |$$$$\\ $$ |  $$ |$$ |\r\n$$  __$$\\   $$ |  $$ \\$$$$ |$$ |\\_$$ |$$ |  $$ |\\__|\r\n$$ |  $$ |  $$ |  $$ |\\$$$ |$$ |  $$ |$$ |  $$ |    \r\n$$$$$$$  |$$$$$$\\ $$ | \\$$ |\\$$$$$$  | $$$$$$  |$$\\ \r\n\\_______/ \\______|\\__|  \\__| \\______/  \\______/ \\__|\r\n                                                    \r\n                                                    \r\n                                                    ");
+}
+void PrintarBingaoDoThavao()
+{
+	Console.WriteLine("██████╗ ██╗███╗   ██╗ ██████╗  █████╗  ██████╗     \r\n██╔══██╗██║████╗  ██║██╔════╝ ██╔══██╗██╔═══██╗    \r\n██████╔╝██║██╔██╗ ██║██║  ███╗███████║██║   ██║    \r\n██╔══██╗██║██║╚██╗██║██║   ██║██╔══██║██║   ██║    \r\n██████╔╝██║██║ ╚████║╚██████╔╝██║  ██║╚██████╔╝    \r\n╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     \r\n                                                   \r\n                ██████╗  ██████╗                   \r\n                ██╔══██╗██╔═══██╗                  \r\n                ██║  ██║██║   ██║                  \r\n                ██║  ██║██║   ██║                  \r\n                ██████╔╝╚██████╔╝                  \r\n                ╚═════╝  ╚═════╝                   \r\n                                                   \r\n████████╗██╗  ██╗ █████╗ ██╗   ██╗ █████╗  ██████╗ \r\n╚══██╔══╝██║  ██║██╔══██╗██║   ██║██╔══██╗██╔═══██╗\r\n   ██║   ███████║███████║██║   ██║███████║██║   ██║\r\n   ██║   ██╔══██║██╔══██║╚██╗ ██╔╝██╔══██║██║   ██║\r\n   ██║   ██║  ██║██║  ██║ ╚████╔╝ ██║  ██║╚██████╔╝\r\n   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ \r\n                                                   ");
+}
 void FinalizarJogo(int vencedor)
 {
 	pontosJogador[vencedor] += 5;
-	Console.WriteLine("---BINGO!---");
-    Console.WriteLine($"Foram: {contadorNumerosApresentados} rodadas!");
-    Console.WriteLine("O vencedor foi: " + jogadores[vencedor]);
+	PrintarBingo();
+	Console.WriteLine($"    Foram: {contadorNumerosApresentados} rodadas!");
+	Console.WriteLine("    O vencedor foi: " + jogadores[vencedor]);
 	ContarPontos();
+
+	Console.WriteLine("\n\tPlacar:");
 	for (int i = 0; i < qtdJogadores; i++)
 	{
-		Console.WriteLine($"Jogador {jogadores[i]} fez: {pontosJogador[i]} pontos");
+		Console.WriteLine($"    Jogador {jogadores[i]} fez: {pontosJogador[i]} pontos");
 	}
-
-	Console.ReadLine();
+    Console.WriteLine("\n\n\n\n\n\n\n");
+    Console.ReadLine();
 }
 void CriarCartelas()
 {
@@ -283,7 +293,7 @@ void DefinirJogadores()
 
 	for (int i = 0; i < qtdJogadores; i++)
 	{
-		Console.Write($"Digite o nome do {i + 1}: ");
+		Console.Write($"Digite o nome do {i + 1}º: ");
 		jogadores[i] = Console.ReadLine();
 
 	}
@@ -309,10 +319,7 @@ void DistribuirCartelas()
 
 
 
-
-
-
-
+PrintarBingaoDoThavao();
 DefinirJogadores();
 DistribuirCartelas();
 
@@ -334,6 +341,7 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 			ImprimirCartelasJogador(jogador);
 			Console.WriteLine();
 			Console.WriteLine();
+			Console.WriteLine("    Rodada: " + contadorNumerosApresentados);
 			Console.WriteLine("    Numero Sorteado: " + numerosSorteados[i]);
 
 			ChecarCartelas(jogador, numerosSorteados[i]);

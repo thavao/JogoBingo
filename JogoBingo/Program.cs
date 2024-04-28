@@ -150,8 +150,9 @@ int[,] SortearCartela()
 	return Novatabela;
 }
 
-void ChecarCartelas(int jogador, int numero)
+bool ChecarCartelas(int jogador, int numero)
 {
+	bool numeroNaCartela = false;
 	for (int c = 1; c <= qtdCartelasPorJogador; c++)
 	{
 		int indiceCartela = cartelasDoJogador[jogador, c];
@@ -165,13 +166,14 @@ void ChecarCartelas(int jogador, int numero)
 					cartela[indiceCartela][LinhaNumerosMarcados, ColunaDadosNaCartela]++;
 					JogadoresNumerosColunas[colunaAtual, indiceCartela]++;
 					JogadoresNumerosLinhas[linhaAtual, indiceCartela]++;
+                    numeroNaCartela = true;
 
-					if (!pontoVertical && JogadoresNumerosColunas[colunaAtual, indiceCartela] >= 5)
+                    if (!pontoVertical && JogadoresNumerosColunas[colunaAtual, indiceCartela] >= 5)
 					{
 						pontoVertical = true;
 						jogadorPontoVertical[jogador] = true;
 						Console.WriteLine($"Jogador {jogadores[jogador]} marcou uma coluna!");
-					}
+                    }
 
 				}
 
@@ -185,6 +187,7 @@ void ChecarCartelas(int jogador, int numero)
 			}
 		}
 	}
+	return numeroNaCartela;
 }
 
 void ImprimirCartelasJogador(int jogador)
@@ -351,19 +354,20 @@ for (int i = 0; i < numerosSorteados.Length; i++)
 		for (int jogador = 0; jogador < qtdJogadores; jogador++)
 		{
 			Console.WriteLine();
-			Console.WriteLine("{-----------------------------------}");
-			Console.WriteLine("\t  Jogador: " + jogadores[jogador]);
+			Console.WriteLine("{----------------------------------------------------}");
+            Console.WriteLine("\t  Jogador: " + jogadores[jogador]);
 			ImprimirCartelasJogador(jogador);
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine("    Rodada: " + contadorNumerosApresentados);
 			Console.WriteLine("    Numero Sorteado: " + numerosSorteados[i]);
 
-			ChecarCartelas(jogador, numerosSorteados[i]);
+			if(ChecarCartelas(jogador, numerosSorteados[i]))
+                Console.WriteLine("    Número sorteado presente em uma das cartelas!");
 
-			ImprimirQtdNumerosMarcados(jogador);
-			Console.WriteLine("{-----------------------------------}");
-			if (VerificarBingo(jogador))
+            ImprimirQtdNumerosMarcados(jogador);
+			Console.WriteLine("{----------------------------------------------------}");
+            if (VerificarBingo(jogador))
 			{
 				bingo = true;
 
